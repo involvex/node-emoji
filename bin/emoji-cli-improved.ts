@@ -15,6 +15,7 @@ interface Command {
   description: string
   handler: (args?: string) => void | Promise<void>
   requiresArgs: boolean
+  acceptsOptionalArgs?: boolean
 }
 
 interface ParsedArgs {
@@ -77,9 +78,10 @@ const COMMANDS: Command[] = [
   {
     name: 'random',
     aliases: ['--random', '--rnd', '-r'],
-    description: 'Get a random emoji',
+    description: 'Get one or more random emojis (optionally specify count)',
     handler: runRandom,
     requiresArgs: false,
+    acceptsOptionalArgs: true,
   },
   {
     name: 'about',
@@ -206,9 +208,20 @@ function validateArgs(command: Command, args: string[]): void {
     throw new ValidationError(`Command "${command.name}" requires arguments`)
   }
 
-  if (!command.requiresArgs && args.length > 0) {
+  if (
+    !command.requiresArgs &&
+    !command.acceptsOptionalArgs &&
+    args.length > 0
+  ) {
     throw new ValidationError(
       `Command "${command.name}" does not accept arguments`,
+    )
+  }
+
+  // For commands that accept optional args, we allow 0 or 1 argument
+  if (command.acceptsOptionalArgs && args.length > 1) {
+    throw new ValidationError(
+      `Command "${command.name}" accepts at most one argument`,
     )
   }
 }
@@ -332,16 +345,55 @@ async function runFind(name?: string): Promise<void> {
   }
 }
 
-async function runRandom(): Promise<void> {
+async function runRandom(countArg?: string): Promise<void> {
   try {
-    const result = cli.random()
-    output.success(result)
+    let count: number
+
+    // Parse and validate the count argument
+    if (countArg !== undefined) {
+      const parsedCount = parseInt(countArg, 10)
+
+      if (isNaN(parsedCount)) {
+        throw new ValidationError(
+          `Invalid number: "${countArg}". Please provide a positive integer.`,
+        )
+      }
+
+      if (parsedCount <= 0) {
+        throw new ValidationError(
+          `Count must be a positive integer, got: ${parsedCount}`,
+        )
+      }
+
+      if (parsedCount > 100) {
+        throw new ValidationError(
+          `Count too large: ${parsedCount}. Maximum allowed is 100 emojis at once.`,
+        )
+      }
+
+      count = parsedCount
+    } else {
+      // Backward compatibility: default to 1 if no argument provided
+      count = 1
+    }
+
+    // Generate random emojis
+    const results = []
+    for (let i = 0; i < count; i++) {
+      results.push(cli.random())
+    }
+
+    output.success(results)
   } catch (error) {
-    output.error(
-      `Failed to get random emoji: ${
-        error instanceof Error ? error.message : 'Unknown error'
-      }`,
-    )
+    if (error instanceof ValidationError) {
+      output.error(error.message)
+    } else {
+      output.error(
+        `Failed to get random emoji${
+          countArg ? `s (count: ${countArg})` : ''
+        }: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      )
+    }
   }
 }
 
@@ -364,6 +416,8 @@ function showHelp(): void {
   console.log(`  ${CONFIG.name} --get "heart"`)
   console.log(`  ${CONFIG.name} --emojify "I love you"`)
   console.log(`  ${CONFIG.name} --random`)
+  console.log(`  ${CONFIG.name} --random 5`)
+  console.log(`  ${CONFIG.name} -r 10`)
 }
 
 function showVersion(): void {
