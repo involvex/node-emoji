@@ -53,7 +53,7 @@
     "build:cli": "bun build --target=node bin/emoji-cli-improved.ts --outdir=dist",
     "dev": "bun run bin/emoji-cli-improved.ts",
     "format": "prettier . --write",
-    "lint": "eslint .  -c eslint.config.ts",
+    "lint": "eslint . --ignore-pattern lib --ignore-pattern dist -c eslint.config.ts",
     "lint:knip": "knip",
     "lint:md": "markdownlint \"**/*.md\" \".github/**/*.md\" --rules sentences-per-line",
     "lint:package-json": "npmPkgJsonLint .",

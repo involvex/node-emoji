@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import * as cli from '../src/index.js'
+import * as cli from '../lib/index.js'
 
 // Type definitions for better type safety
 interface CLIConfig {
@@ -27,7 +27,7 @@ interface ParsedArgs {
 const CONFIG: CLIConfig = {
   name: 'emoji-cli',
   description: 'Friendly emoji lookups and parsing utilities for Node.js',
-  version: await import('../package.json').then(pkg => pkg.default.version),
+  version: '2.2.3', // TODO: Get version from package.json dynamically
 }
 
 // Available commands

@@ -1,12 +1,17 @@
 import js from '@eslint/js'
 import globals from 'globals'
 import tseslint from 'typescript-eslint'
-import json from '@eslint/json'
 import { defineConfig } from 'eslint/config'
 
 export default defineConfig([
   {
-    files: ['**/*.{js,mjs,cjs,ts}'],
+    files: [
+      '**/*.{js,mjs,cjs}',
+      '!lib/**/*',
+      '!dist/**/*',
+      '!src/e2e.cjs',
+      '!**/*.ts',
+    ],
     plugins: { js },
     extends: ['js/recommended'],
     languageOptions: { globals: globals.node },
@@ -17,15 +22,11 @@ export default defineConfig([
       'no-misleading-character-class': 'off',
       // Allow unused variables in generated/built files
       'no-unused-vars': 'off',
-      // Allow require() in CommonJS files
-      '@typescript-eslint/no-require-imports': 'off',
-      // Allow some unused variables
-      '@typescript-eslint/no-unused-vars': 'off',
     },
   },
-  // TypeScript source files with type checking
+  // TypeScript source files only (not config files)
   {
-    files: ['src/**/*.ts', 'bin/**/*.ts'],
+    files: ['src/**/*.ts', 'bin/emoji-cli-improved.ts'],
     plugins: {
       js,
       '@typescript-eslint': tseslint.plugin,
@@ -45,11 +46,15 @@ export default defineConfig([
       '@typescript-eslint/no-unused-vars': 'off',
     },
   },
+  // Configuration files (TypeScript but no type checking)
   {
-    files: ['**/*.jsonc', '**/*.json'],
-    plugins: { json },
-    language: 'json/jsonc',
-    extends: ['json/recommended'],
-    rules: {}, // Override all inherited rules
+    files: ['eslint.config.ts', 'vitest.config.ts', 'tsup.config.ts'],
+    plugins: { js },
+    extends: ['js/recommended'],
+    languageOptions: { globals: globals.node },
+    rules: {
+      'no-prototype-builtins': 'off',
+      'no-misleading-character-class': 'off',
+    },
   },
 ])
