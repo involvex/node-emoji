@@ -1,5 +1,5 @@
 {
-  "name": "node-emoji",
+  "name": "@involvex/emoji-cli",
   "version": "2.2.2",
   "description": "Friendly emoji lookups and parsing utilities for Node.js. 💖",
   "keywords": [
