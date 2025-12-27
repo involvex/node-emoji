@@ -1,6 +1,6 @@
 {
   "name": "@involvex/emoji-cli",
-  "version": "2.2.6",
+  "version": "2.2.7",
   "description": "Friendly emoji lookups and parsing utilities for Node.js. 💖",
   "keywords": [
     "emoji",
@@ -49,6 +49,7 @@
     "src/*"
   ],
   "scripts": {
+    "prebuild": "npm run format && npm run lint && npm run typecheck",
     "build": "tsup",
     "build:cli": "bun build --target=node bin/emoji-cli-improved.ts --outdir=dist",
     "dev": "bun run bin/emoji-cli-improved.ts",
@@ -64,7 +65,8 @@
     "start": "node lib/bin/emoji-cli-improved.js",
     "test": "vitest",
     "test:cjs": "node ./src/e2e.cjs",
-    "tsc": "tsc"
+    "tsc": "tsc",
+    "typecheck": "tsc --noEmit"
   },
   "lint-staged": {
     "*": "prettier --ignore-unknown --write"
