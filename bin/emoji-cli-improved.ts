@@ -87,7 +87,7 @@ const COMMANDS: Command[] = [
 class CLIError extends Error {
   constructor(
     message: string,
-    public code: number = 1,
+    public code: number,
   ) {
     super(message)
     this.name = 'CLIError'
@@ -379,6 +379,7 @@ async function run(): Promise<void> {
     if (!command) {
       throw new CLIError(
         `Unknown command: ${commandInput}. Use --help for available commands.`,
+        1,
       )
     }
 
