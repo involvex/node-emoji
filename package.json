@@ -1,6 +1,6 @@
 {
   "name": "@involvex/emoji-cli",
-  "version": "2.2.7",
+  "version": "2.2.8",
   "description": "Friendly emoji lookups and parsing utilities for Node.js. 💖",
   "keywords": [
     "emoji",
@@ -15,11 +15,11 @@
     "ideograms"
   ],
   "bugs": {
-    "url": "https://github.com/omnidan/node-emoji/issues"
+    "url": "https://github.com/involvex/node-emoji/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/omnidan/node-emoji"
+    "url": "https://github.com/involvex/node-emoji"
   },
   "license": "MIT",
   "author": {

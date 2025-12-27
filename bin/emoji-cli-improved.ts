@@ -81,6 +81,13 @@ const COMMANDS: Command[] = [
     handler: runRandom,
     requiresArgs: false,
   },
+  {
+    name: 'about',
+    aliases: ['--about', '-a'],
+    description: 'Show information about the CLI',
+    handler: showabout,
+    requiresArgs: false,
+  },
 ]
 
 // Error handling
@@ -222,6 +229,12 @@ async function runSearch(query?: string): Promise<void> {
       }`,
     )
   }
+}
+async function showabout() {
+  console.log(`${CONFIG.name} v${CONFIG.version}`)
+  console.log(`${CONFIG.description} 💖`)
+  console.log('author: ', pkg.author.name)
+  console.log('Repository: ', pkg.repository.url)
 }
 
 async function runEmojify(text?: string): Promise<void> {
@@ -373,7 +386,10 @@ async function run(): Promise<void> {
       showVersion()
       return
     }
-
+    if (commandInput === '--about' || commandInput === '-a') {
+      showabout()
+      return
+    }
     // Resolve and execute command
     const command = resolveCommand(commandInput)
     if (!command) {
