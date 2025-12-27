@@ -52,8 +52,8 @@
     "build": "tsup",
     "build:cli": "bun build --target=node bin/emoji-cli.ts --outdir=dist",
     "dev": "bun run bin/emoji-cli.ts",
-    "format": "prettier \"**/*\" --ignore-unknown",
-    "lint": "eslint . .*js --max-warnings 0 --report-unused-disable-directives",
+    "format": "prettier . --write",
+    "lint": "eslint . .*js --max-warnings 0 -c eslint.config.ts",
     "lint:knip": "knip",
     "lint:md": "markdownlint \"**/*.md\" \".github/**/*.md\" --rules sentences-per-line",
     "lint:package-json": "npmPkgJsonLint .",
@@ -61,6 +61,7 @@
     "lint:spelling": "cspell \"**\" \".github/**/*\"",
     "prepare": "husky install",
     "should-semantic-release": "should-semantic-release --verbose",
+    "start": "node dist/emoji-cli.js",
     "test": "vitest",
     "test:cjs": "node ./src/e2e.cjs",
     "tsc": "tsc"
