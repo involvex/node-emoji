@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import * as cli from '../src/index.js'
-export default function run() {
+export default async function run() {
   console.log('Emoji cli')
   const args = process.argv.slice(2)
   const command = args[0]
@@ -40,6 +40,13 @@ export default function run() {
     case '-r':
       runrandom()
       break
+    case '--version':
+    case '-v':
+      await import('../package.json').then(pkg => {
+        console.log(pkg.default.version)
+      })
+      break
+
     default:
       showhelp()
       break
