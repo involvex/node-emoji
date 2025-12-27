@@ -7,14 +7,14 @@ import { normalizeName } from './utils.js'
  * Search for emojis containing the provided name or pattern in their name.
  */
 export const search = (keyword: RegExp | string) => {
-  assert.any([is.default.string, is.default.regExp], keyword)
+  assert.any([is.string, is.regExp], keyword)
 
-  if (is.default.string(keyword)) {
+  if (is.string(keyword)) {
     keyword = normalizeName(keyword)
   }
 
-  if (is.default.regExp(keyword)) {
-    const normalizedPattern = normalizeName(keyword.source)
+  if (is.regExp(keyword)) {
+    const normalizedPattern = normalizeName(keyword.toString())
     keyword = new RegExp(normalizedPattern)
   }
 

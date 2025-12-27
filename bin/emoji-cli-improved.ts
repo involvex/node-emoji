@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-import * as cli from '../lib/index.js'
-
+import * as cli from '../src/index'
+import pkg from '../package.json'
 // Type definitions for better type safety
 interface CLIConfig {
   name: string
@@ -27,7 +27,7 @@ interface ParsedArgs {
 const CONFIG: CLIConfig = {
   name: 'emoji-cli',
   description: 'Friendly emoji lookups and parsing utilities for Node.js',
-  version: '2.2.3', // TODO: Get version from package.json dynamically
+  version: pkg.version as string, // TODO: Get version from package.json dynamically
 }
 
 // Available commands
@@ -408,15 +408,15 @@ async function run(): Promise<void> {
 }
 
 // Execute if this file is run directly
-if (import.meta.url === `file://${process.argv[1]}`) {
-  run().catch(error => {
-    output.error(
-      `Failed to run CLI: ${
-        error instanceof Error ? error.message : 'Unknown error'
-      }`,
-    )
-    process.exit(1)
-  })
-}
+// if (import.meta.url === `file://${process.argv[1]}`) {
+//   run().catch(error => {
+//     output.error(
+//       `Failed to run CLI: ${
+//         error instanceof Error ? error.message : 'Unknown error'
+//       }`,
+//     )
+//     process.exit(1)
+//   })
+// }
 run()
 export default run

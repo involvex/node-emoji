@@ -38,7 +38,7 @@
   },
   "main": "./lib/index.js",
   "bin": {
-    "emoji-cli": "bin/emoji-cli-improved.ts"
+    "emoji-cli": "lib/bin/emoji-cli-improved.js"
   },
   "files": [
     "lib/",
@@ -61,7 +61,7 @@
     "lint:spelling": "cspell \"**\" \".github/**/*\"",
     "prepare": "husky install",
     "should-semantic-release": "should-semantic-release --verbose",
-    "start": "node dist/emoji-cli-improved.js",
+    "start": "node lib/bin/emoji-cli-improved.js",
     "test": "vitest",
     "test:cjs": "node ./src/e2e.cjs",
     "tsc": "tsc"

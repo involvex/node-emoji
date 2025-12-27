@@ -31,9 +31,9 @@ export const emojify = (
   const fallbackFunction =
     fallback === undefined ? fallback : asFunction(fallback)
 
-  is.assert.string(input)
-  is.assert.any([is.default.undefined, is.default.function_], fallbackFunction)
-  is.assert.function_(format)
+  is.string(input)
+  is.any([is.undefined, is.function_], fallbackFunction)
+  is.function_(format)
 
   return input.replace(/:[\w\-+]+:/g, part => {
     const found = findByName(part)
