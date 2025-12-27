@@ -85,11 +85,11 @@ const COMMANDS: Command[] = [
 
 // Error handling
 class CLIError extends Error {
-  constructor(
-    message: string,
-    public code: number,
-  ) {
+  code: number
+
+  constructor(message: string, code: number) {
     super(message)
+    this.code = code
     this.name = 'CLIError'
   }
 }
